@@ -20,7 +20,10 @@ should simplify things and make it so that no shift registers are required.
 
 ## To-Do
 
-### Buy the matrices and try to hook them up together and to an Arduino
+### Receive the matrices and try to hook them up together and to an Arduino
+
+I've bought the matrices from Aliexpress. Whenever they arrive, I'll try to hook
+them up together and drive them using an Arduino.
 
 https://www.hwkitchen.cz/8x8-led-matrix-cervena-s-max7219-diy-kit
 
