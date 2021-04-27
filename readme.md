@@ -113,3 +113,7 @@ total.
 
 Once a single displays is proven to work, try chaining them and driving them as
 a single big display.
+
+### Generate and display a QR code
+
+https://www.arduino.cc/reference/en/libraries/qrcode/
