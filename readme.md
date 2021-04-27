@@ -77,8 +77,8 @@ void loop() {
   ledControl.shutdown(0, false);
   
   // Light all of the LEDs in the matrix display on
-  for (let row = 0; row < 8; row++) {
-    for (let column = 0; column < 8; column++) {
+  for (int row = 0; row < 8; row++) {
+    for (int column = 0; column < 8; column++) {
       ledControl.setLed(0, row, column, true);
     }
   }
