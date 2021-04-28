@@ -109,6 +109,8 @@ A single instance of `LedControl` supports up to 8 displays. To drive more than
 with 13 digital pins can support up to 4 chains of 8 displays, so 32 displays in
 total.
 
+[Wokwi project](https://wokwi.com/arduino/projects/297148152803230218)
+
 ### Build an enclosure to hold the 4×4 matrix of the displays together and chain
 
 Once a single displays is proven to work, try chaining them and driving them as
