@@ -110,7 +110,7 @@ with 13 digital pins can support up to 4 chains of 8 displays, so 32 displays in
 total.
 
 [Wokwi project](https://wokwi.com/arduino/projects/297148152803230218)
-[[Wokwi project with diagram editor](https://diagram-editor.preview.wokwi.com/arduino/projects/297148152803230218))
+([Wokwi project with diagram editor](https://diagram-editor.preview.wokwi.com/arduino/projects/297148152803230218))
 
 ### Build an enclosure to hold the 4×4 matrix of the displays together and chain
 
