@@ -19,6 +19,23 @@ This allows displaying QR codes of versions 1, 2 and 3:
 | 2          | 25×25   | 16 (4×4 - 32×32)             | 61 % (625/1024 dots)  |
 | 3          | 29×29   | 16 (4×4 - 32×32)             | 82 % (841/1024 dots)  |
 
+[QRCode.com Information Capacity](https://www.qrcode.com/en/about/version.html)
+
+| QR Version | Error Correction | Numeric Capacity | Alphanumeric Capacity |
+|------------|------------------|------------------|-----------------------|
+| 1          | Low              | 41               | 25                    |
+| 1          | Medium           | 34               | 20                    |
+| 1          | Quartile         | 27               | 16                    |
+| 1          | High             | 17               | 10                    |
+| 2          | Low              | 77               | 47                    |
+| 2          | Medium           | 63               | 38                    |
+| 2          | Quartile         | 48               | 29                    |
+| 2          | High             | 34               | 20                    |
+| 3          | Low              | 127              | 77                    |
+| 3          | Medium           | 101              | 61                    |
+| 3          | Quartile         | 77               | 47                    |
+| 3          | High             | 58               | 35                    |
+
 ## [Wokwi Simulation](https://wokwi.com/arduino/projects/297148152803230218)
 
 `qrcode.ino`
