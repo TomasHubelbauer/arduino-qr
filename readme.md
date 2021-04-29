@@ -41,50 +41,33 @@ This allows displaying QR codes of versions 1, 2 and 3:
 `qrcode.ino`
 ```ino
 #include <LedControl.h>
-#include "qrcode.h"
+#include "qrcode.h" // https://github.com/ricmoo/QRCode
 
-LedControl ledControl0 = LedControl(/* DIN */ 0, /* CLK */ 1, /* CS */ 2, /* Count */ 4);
-LedControl ledControl1 = LedControl(/* DIN */ 3, /* CLK */ 4, /* CS */ 5, /* Count */ 4);
-LedControl ledControl2 = LedControl(/* DIN */ 6, /* CLK */ 7, /* CS */ 8, /* Count */ 4);
-LedControl ledControl3 = LedControl(/* DIN */ 9, /* CLK */ 10, /* CS */ 11, /* Count */ 4);
 QRCode qrcode;
+LedControl ledControls[] = {
+  LedControl(/* DIN */ 0, /* CLK */ 1, /* CS */ 2, /* Count */ 4),
+  LedControl(/* DIN */ 3, /* CLK */ 4, /* CS */ 5, /* Count */ 4),
+  LedControl(/* DIN */ 6, /* CLK */ 7, /* CS */ 8, /* Count */ 4),
+  LedControl(/* DIN */ 9, /* CLK */ 10, /* CS */ 11, /* Count */ 4),
+};
 
 void setup() {
-  ledControl0.setIntensity(0, 15);
+  ledControls[0].setIntensity(0, 15);
+  ledControls[1].setIntensity(0, 15);
+  ledControls[2].setIntensity(0, 15);
+  ledControls[3].setIntensity(0, 15);
 
   // Allocate array large enough to hold a version 3 QR code (29*29)
   uint8_t qrcodeData[qrcode_getBufferSize(3)];
   qrcode_initText(&qrcode, qrcodeData, 3, 0, "HELLO WORLD");
 
   drawQrCode();
-  //drawPixel(31, 15);
 }
 
 void loop() {
   // TODO: Replace this with ArduinoLowPower.h and its power-down mode:
   // LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
   delay(2147483647);
-}
-
-void drawPixel(int x, int y) {
-  for (int index = 0; index < 2; index++) {
-    LedControl ledControl = index == 0 ? ledControl0 : ledControl1;
-    if (index == y / 8) {
-      ledControl.shutdown(0, false);
-
-      ledControl.clearDisplay(0);
-      ledControl.clearDisplay(1);
-      ledControl.clearDisplay(2);
-      ledControl.clearDisplay(3);
-
-      int address = 3 - (x / 8);
-      int row = y % 8;
-      int column = 7 - (x % 8);
-      ledControl.setLed(address, row, column, true);
-
-      ledControl.shutdown(0, true);
-    }
-  }
 }
 
 void drawQrCode() {
@@ -96,36 +79,10 @@ void drawQrCode() {
       int row = y % 8;
       int column = 7 - (x % 8);
       bool state = qrcode_getModule(&qrcode, x, y);
-
-      // TODO: Figure out how to make `LedControl ledControl = index == 0 ? ledControl0 : ledControl1` work
-      // Right now, when I do that, the displays behave very strangely
       int index = y / 8;
-      switch (index) {
-        case 0: {
-          ledControl0.shutdown(address, false);
-          ledControl0.setLed(address, row, column, state);
-          ledControl0.shutdown(address, true);
-          break;
-        }
-        case 1: {
-          ledControl1.shutdown(address, false);
-          ledControl1.setLed(address, row, column, state);
-          ledControl1.shutdown(address, true);
-          break;
-        }
-        case 2: {
-          ledControl2.shutdown(address, false);
-          ledControl2.setLed(address, row, column, state);
-          ledControl2.shutdown(address, true);
-          break;
-        }
-        case 3: {
-          ledControl3.shutdown(address, false);
-          ledControl3.setLed(address, row, column, state);
-          ledControl3.shutdown(address, true);
-          break;
-        }
-      }
+      ledControls[index].shutdown(address, false);
+      ledControls[index].setLed(address, row, column, state);
+      ledControls[index].shutdown(address, true);
     }
   }
 }
@@ -137,6 +94,9 @@ void drawQrCode() {
   "version": 1,
   "author": "Tomas Hubelbauer",
   "editor": "wokwi",
+  "serialMonitor": {
+    "display": "never"
+  },
   "parts": [
     {
       "type": "wokwi-arduino-uno",
