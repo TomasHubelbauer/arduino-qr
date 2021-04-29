@@ -26,82 +26,188 @@ be made this way and driven using a single Arduino is a 5×5 LED matrix display.
 6×6 would be 36 displays total, exceeding the maximum handle-able by the Arduino
 (32).
 
-## To-Do
+## Wokwi Simulation
 
-### Try to hook them up together and to an Arduino
-
-Try to hook one of the LED matrix displays up to an Arduino and successfully
-drive it.
-
-There are 5 points on the board that comes with the display. Two of them are for
-power - VCC (+5 V) and GND (ground). The remaining ones are for SPI. DIN is data
-input, CS is an SPI chip select connection and CLK is the clock connection. The
-power pins are easily taken care of so the only remaining this is to connect the
-SPI pins to available Arduino pins.
-
-Arduino has a library called [LEDControl](https://www.arduino.cc/reference/en/libraries/ledcontrol/),
-which among other things can also drive these 8×8 LED matrices based around the
-MAX7219 display driver.
-
-Sample code to drive a single display should look more or less like this:
-(See the [LEDControl documentation](http://wayoda.github.io/LedControl/pages/software)).
-
+`qrcode.ino`
 ```ino
 #include <LedControl.h>
+#include "qrcode.h"
 
-// These can be any of the Arduino digital pins
-int DIN = 12;
-int CLK = 11;
-int CS = 10;
-
-// The 4th argument is the number of displays in the chain (1-8)
-// Note that LedControl will default the display to a blank state (cleared),
-// the `clearDisplay` method can be used to clear the display later on.
-LedControl ledControl = LedControl(DIN, CLK, CS, 1);
+LedControl ledControl0 = LedControl(/* DIN */ 0, /* CLK */ 1, /* CS */ 2, /* Count */ 4);
+LedControl ledControl1 = LedControl(/* DIN */ 3, /* CLK */ 4, /* CS */ 5, /* Count */ 4);
+LedControl ledControl2 = LedControl(/* DIN */ 6, /* CLK */ 7, /* CS */ 8, /* Count */ 4);
+LedControl ledControl3 = LedControl(/* DIN */ 9, /* CLK */ 10, /* CS */ 11, /* Count */ 4);
+QRCode qrcode;
 
 void setup() {
-  // Leave power-saving mode (MAX72XX is in shutdown mode on Arduino power-up)
-  // Note that in the shutdown mode, the display remains lit with the last data
-  // sent before entering the power-saving mode. New data can be sent, but will
-  // only be displayed once the power-saving mode has been exited.
-  // TODO: See if I can remove this here and just keep it in the loop/interrupt
-  ledControl.shutdown(0, false);
-  
-  // Set the intensity of the display (0-15, even 0 is still slightly lit)
-  ledControl.setIntensity(0, 8);
+  ledControl0.setIntensity(0, 15);
+
+  // Allocate array large enough to hold a version 3 QR code (29*29)
+  uint8_t qrcodeData[qrcode_getBufferSize(3)];
+  qrcode_initText(&qrcode, qrcodeData, 3, 0, "HELLO WORLD");
+
+  drawQrCode();
+  //drawPixel(31, 15);
 }
 
-// TODO: See if I can move shutdown leave after data set to keep it in it longer
 void loop() {
-  // Exit power-saving mode
-  ledControl.shutdown(0, false);
-  
-  // Light all of the LEDs in the matrix display on
-  for (int row = 0; row < 8; row++) {
-    for (int column = 0; column < 8; column++) {
-      ledControl.setLed(0, row, column, true);
+  // TODO: Replace this with ArduinoLowPower.h and its power-down mode:
+  // LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
+  delay(2147483647);
+}
+
+void drawPixel(int x, int y) {
+  for (int index = 0; index < 2; index++) {
+    LedControl ledControl = index == 0 ? ledControl0 : ledControl1;
+    if (index == y / 8) {
+      ledControl.shutdown(0, false);
+
+      ledControl.clearDisplay(0);
+      ledControl.clearDisplay(1);
+      ledControl.clearDisplay(2);
+      ledControl.clearDisplay(3);
+
+      int address = 3 - (x / 8);
+      int row = y % 8;
+      int column = 7 - (x % 8);
+      ledControl.setLed(address, row, column, true);
+
+      ledControl.shutdown(0, true);
     }
   }
-  
-  // Enter power-saving mode (retain currently displayed data)
-  ledControl.shutdown(0, true);
-  
-  // Wait before re-drawing the matrix display
-  // TODO: Replace this with an interrupt handler for a button press
-  delay(1000);
+}
+
+void drawQrCode() {
+  // TODO: Adjust the code for this to work and center the QR code
+  int pad = (32 - qrcode.size) / 2;
+  for (int y = 0; y < 32; y++) {
+    for (int x = 0; x < 32; x++) {
+      int address = 3 - (x / 8);
+      int row = y % 8;
+      int column = 7 - (x % 8);
+      bool state = qrcode_getModule(&qrcode, x, y);
+
+      // TODO: Figure out how to make `LedControl ledControl = index == 0 ? ledControl0 : ledControl1` work
+      // Right now, when I do that, the displays behave very strangely
+      int index = y / 8;
+      switch (index) {
+        case 0: {
+          ledControl0.shutdown(address, false);
+          ledControl0.setLed(address, row, column, state);
+          ledControl0.shutdown(address, true);
+          break;
+        }
+        case 1: {
+          ledControl1.shutdown(address, false);
+          ledControl1.setLed(address, row, column, state);
+          ledControl1.shutdown(address, true);
+          break;
+        }
+        case 2: {
+          ledControl2.shutdown(address, false);
+          ledControl2.setLed(address, row, column, state);
+          ledControl2.shutdown(address, true);
+          break;
+        }
+        case 3: {
+          ledControl3.shutdown(address, false);
+          ledControl3.setLed(address, row, column, state);
+          ledControl3.shutdown(address, true);
+          break;
+        }
+      }
+    }
+  }
 }
 ```
 
-Useful functions from [the documentation](http://wayoda.github.io/LedControl/pages/software):
+`diagram.json`
+```json
+{
+  "version": 1,
+  "author": "Tomas Hubelbauer",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-arduino-uno",
+      "id": "uno",
+      "top": 30,
+      "left": 0,
+      "rotate": 90,
+      "hide": false,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-max7219-matrix",
+      "id": "m1",
+      "top": 0,
+      "left": 300,
+      "rotate": 0,
+      "hide": false,
+      "attrs": { "chain": "4" }
+    },
+    {
+      "type": "wokwi-max7219-matrix",
+      "id": "m2",
+      "top": 75,
+      "left": 300,
+      "rotate": 0,
+      "hide": false,
+      "attrs": { "chain": "4" }
+    },
+    {
+      "type": "wokwi-max7219-matrix",
+      "id": "m3",
+      "top": 150,
+      "left": 300,
+      "rotate": 0,
+      "hide": false,
+      "attrs": { "chain": "4" }
+    },
+    {
+      "type": "wokwi-max7219-matrix",
+      "id": "m4",
+      "top": 225,
+      "left": 300,
+      "rotate": 0,
+      "hide": false,
+      "attrs": { "chain": "4" }
+    }
+  ],
+  "connections": [
+    [ "uno:GND.1", "m1:GND", "black", [ "v-12", "*", "h-16" ] ],
+    [ "uno:5V", "m1:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
+    [ "uno:0", "m1:DIN", "orange", [ "v-20", "*", "h-8" ] ],
+    [ "uno:1", "m1:CLK", "blue", [ "v-16", "*", "h-12" ] ],
+    [ "uno:2", "m1:CS", "green", [ "v-24", "*", "h-4" ] ],
 
-- `void clearDisplay(int *addr)`
-- `void setLed(int addr, int row, int col, boolean state)`
-- `void setRow(int addr, int row, byte value)`
-- `void setColumn(int addr, int col, byte value)`
+    [ "uno:GND.1", "m2:GND", "black", [ "v-12", "*", "h-16" ] ],
+    [ "uno:5V", "m2:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
+    [ "uno:3", "m2:DIN", "orange", [ "v-20", "*", "h-8" ] ],
+    [ "uno:4", "m2:CLK", "blue", [ "v-16", "*", "h-12" ] ],
+    [ "uno:5", "m2:CS", "green", [ "v-24", "*", "h-4" ] ],
 
-The `value` of `setRow` and `setColumn` is a binary number, e.g.: `B10001000`.
+    [ "uno:GND.1", "m3:GND", "black", [ "v-12", "*", "h-16" ] ],
+    [ "uno:5V", "m3:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
+    [ "uno:6", "m3:DIN", "orange", [ "v-20", "*", "h-8" ] ],
+    [ "uno:7", "m3:CLK", "blue", [ "v-16", "*", "h-12" ] ],
+    [ "uno:8", "m3:CS", "green", [ "v-24", "*", "h-4" ] ],
 
-[LEDControl matrix display example](https://github.com/wayoda/LedControl/blob/master/examples/LCDemoMatrix/LCDemoMatrix.ino)
+    [ "uno:GND.1", "m4:GND", "black", [ "v-12", "*", "h-16" ] ],
+    [ "uno:5V", "m4:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
+    [ "uno:9", "m4:DIN", "orange", [ "v-20", "*", "h-8" ] ],
+    [ "uno:10", "m4:CLK", "blue", [ "v-16", "*", "h-12" ] ],
+    [ "uno:11", "m4:CS", "green", [ "v-24", "*", "h-4" ] ]
+  ]
+}
+```
+
+`qrcode.c` and `qrcode.h` from [ricmoo/QRCode](https://github.com/ricmoo/QRCode)
+also need to be added to the project.
+[LEDControl](https://www.arduino.cc/reference/en/libraries/ledcontrol) will work
+out of the box.
+
+[LEDControl documentation](http://wayoda.github.io/LedControl/pages/software)
 
 Driving multiple matrices is done by changing the 4th argument of `LedControl`.
 A single instance of `LedControl` supports up to 8 displays. To drive more than
@@ -110,13 +216,13 @@ with 13 digital pins can support up to 4 chains of 8 displays, so 32 displays in
 total.
 
 [Wokwi project](https://wokwi.com/arduino/projects/297148152803230218)
-([Wokwi project with diagram editor](https://diagram-editor.preview.wokwi.com/arduino/projects/297148152803230218))
 
-### Build an enclosure to hold the 4×4 matrix of the displays together and chain
+## To-Do
 
-Once a single displays is proven to work, try chaining them and driving them as
-a single big display.
+### Wire up the Wokwi simulation using a real Arduino and MAX7219 display grid
 
-### Generate and display a QR code
+[Wokwi project](https://wokwi.com/arduino/projects/297148152803230218)
 
-https://www.arduino.cc/reference/en/libraries/qrcode/
+### Build an enclosure to hold the 4×4 matrix of the displays together
+
+3D-print an enclosure to hold the displays together.
