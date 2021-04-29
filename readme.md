@@ -1,30 +1,23 @@
 # Arduino QR Code
 
-I'm wondering whether it would be possible to build a QR code display using 8×8
-LED matrix displays and an Arduino or a Pi Pico.
+An Arduino QR code display using a 4×4 matrix of 8×8 LED matrix displays using
+the MAX7219 display driver. [AliExpress](https://www.aliexpress.com/item/32849877252.html)
 
-According to Wikipedia [QR Code Storage](https://en.wikipedia.org/wiki/QR_code#Storage),
-the various versions require these sorts of sizes:
+![](wokwi.png)
+
+The displays are chainable up to 8 displays in one chain. Multiple chains need
+to be used to drive more displays. Arduino with 13 digital pins can support up
+to 4 chains (3 SPI pins per chain: DIN, CLK and CS). That gives us the maximum
+display size of 32×32 dots (4×4 displays to keep the compound display square).
+This allows displaying QR codes of versions 1, 2 and 3:
+
+[Wikipedia: QR Code Storage](https://en.wikipedia.org/wiki/QR_code#Storage):
 
 | QR Version | QR Size | 8×8 LED Matrix Display Count | Utilization           |
 |------------|---------|------------------------------|-----------------------|
 | 1          | 21×21   | 9 (3×3 - 24×24)              | 77 % (441/576 dots)   |
 | 2          | 25×25   | 16 (4×4 - 32×32)             | 61 % (625/1024 dots)  |
 | 3          | 29×29   | 16 (4×4 - 32×32)             | 82 % (841/1024 dots)  |
-| 4          | 33×33   | 25 (5×5 - 40×40)             | 90 % (1089/1200 dots) |
-
-The 8×8 LED matrix displays can be bought from:
-
-- [Czech Republic: HWKitchen](https://www.hwkitchen.cz/8x8-led-matrix-cervena-s-max7219-diy-kit)
-- [China: AliExpress](https://www.aliexpress.com/item/32849877252.html)
-
-The displays seem to be chainable up to 8 displays in a chain and each chain of
-up to 8 displays requires 3 SPI pins. [Arduinos generally have 13 digital pins](https://www.arduino.cc/en/reference/board)
-so a single board with no components other than the displays can drive up to
-32 displays (four triples of each chains' SPI pins). The biggest square that can
-be made this way and driven using a single Arduino is a 5×5 LED matrix display.
-6×6 would be 36 displays total, exceeding the maximum handle-able by the Arduino
-(32).
 
 ## Wokwi Simulation
 
