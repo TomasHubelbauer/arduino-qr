@@ -19,7 +19,7 @@ This allows displaying QR codes of versions 1, 2 and 3:
 | 2          | 25×25   | 16 (4×4 - 32×32)             | 61 % (625/1024 dots)  |
 | 3          | 29×29   | 16 (4×4 - 32×32)             | 82 % (841/1024 dots)  |
 
-## Wokwi Simulation
+## [Wokwi Simulation](https://wokwi.com/arduino/projects/297148152803230218)
 
 `qrcode.ino`
 ```ino
@@ -197,25 +197,14 @@ void drawQrCode() {
 
 `qrcode.c` and `qrcode.h` from [ricmoo/QRCode](https://github.com/ricmoo/QRCode)
 also need to be added to the project.
+
 [LEDControl](https://www.arduino.cc/reference/en/libraries/ledcontrol) will work
 out of the box.
 
 [LEDControl documentation](http://wayoda.github.io/LedControl/pages/software)
 
-Driving multiple matrices is done by changing the 4th argument of `LedControl`.
-A single instance of `LedControl` supports up to 8 displays. To drive more than
-8 displays, multiple instances of `LedControl` need to be used. A single board
-with 13 digital pins can support up to 4 chains of 8 displays, so 32 displays in
-total.
-
-[Wokwi project](https://wokwi.com/arduino/projects/297148152803230218)
-
 ## To-Do
 
 ### Wire up the Wokwi simulation using a real Arduino and MAX7219 display grid
 
-[Wokwi project](https://wokwi.com/arduino/projects/297148152803230218)
-
-### Build an enclosure to hold the 4×4 matrix of the displays together
-
-3D-print an enclosure to hold the displays together.
+### 3D-print an enclosure to hold the 4×4 matrix of the displays together
