@@ -185,3 +185,20 @@ out of the box.
 ### Wire up the Wokwi simulation using a real Arduino and MAX7219 display grid
 
 ### 3D-print an enclosure to hold the 4×4 matrix of the displays together
+
+### Experiment with normal and inverted QR display to see what reads better
+
+### Order and try white dot-matrix displays to see if they scan better than red
+
+### Add a push button / SD reader / HTTP server or something to update the code
+
+It would be useful to allow updating the code once flashed. The most flexible
+way would be to have a built-in HTTP server. The initial code shown would be a
+URL to the server and accessing that server, once could set new values of the
+QR code. A push button would be used to reset to the server URL code. Or use an
+SD card reader which reads a value of a text file.
+
+### See if I can make this work on the Raspberry Pi Pico using Wokwi Pico sim
+
+The Pico can mount itself as a mass storage device, so the text file QR content
+source idea would be that much easier.
