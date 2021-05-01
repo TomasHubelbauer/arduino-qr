@@ -202,3 +202,38 @@ SD card reader which reads a value of a text file.
 
 The Pico can mount itself as a mass storage device, so the text file QR content
 source idea would be that much easier.
+
+### Verify LEDControl can truly only drive 8 dot matrix displays in a chain
+
+Test this on actual hardware. Check other libraries too, to find whichever is
+able to control the most displays.
+
+### Test the method of using analog pins as digital and recalculate maximum
+
+https://arduino.stackexchange.com/q/117/23747
+
+This talks about using analog pins as digital, test if LEDControl can be
+configured to use those and recalculate the new maximum size of a square
+compound display if we were to utilize both the digital and the analog pins.
+
+It looks like the total number of pins would be 19, which means 19/3 (6) chains
+of dot matrix displays. Potentially, then, the new maximum should be a six-sided
+compound display, so 48×48 dots? This would support version 4 QR codes or almost
+allow a double-thickness version 2 QR code for better scanning support.
+
+### Look into using a shift register shield to extend the amount of pins
+
+This would enable QR codes of higher versions and could also enable doubling up
+the QR "thickness" for more reliable scanning (if that would help…).
+
+https://nootropicdesign.com/ez-expander
+
+If I'm counting right, this would give a total of 44 pins to use, if we included
+the analog pins, too. 44 pins means 44/3 (14) chains. If the chains are stuck at
+the length of 8 dot matrix displays, this would at least give us an 8×8 compound
+display (64×64 dots). If they worked past 8, this would give us 14×14 compound
+display (112×112 dots). 64×64 would support QR version 10 or doubled up version
+version 3. 112×112 would support doubled up version 10 and just slightly miss
+the threshold for version 25 (117×117). A doubled up version 10 would be super
+sweet if it improved the scanning quality. It seems to support 174 alphanumeric
+characters with high error correction.
