@@ -269,6 +269,12 @@ If the chains could somehow be 10 displays long, that would give us a 10×10
 display, 100×100 dots, QR level up to 20 (97×97). Or QR version 7, double sized.
 Version 20 numeric capacity is 919-2061 and alphanumeric 557-1249.
 
+If the chains really need to be at most 8 displays, we could still achieve a 9×9
+display by using 8 chains for an 8×8 display and then two chains for the 9th row
+and column. This would complicate the code calculations, but could be worth it.
+9×9 is 72×72 dots, QR level up to version 13 (69×69). Or QR version 4, doubled.
+Version 13 numeric capacity is 427-1022 and alphanumeric 259-619.
+
 ### See if Uri will be able to add support for white color dot matrix in Wokwi
 
 The screenshot as it is now will not scan with the iOS Camera app, but with the
