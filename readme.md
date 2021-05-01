@@ -64,14 +64,14 @@ LedControl ledControls[] = {
   LedControl(A3, A4, A5, size),
 };
 
-void setup() {
+int main() {
   for (int index = 0; index < size; index++) {
     ledControls[index].setIntensity(0, 15);
   }
 
   int version = 1;
   uint8_t qrcodeData[qrcode_getBufferSize(version)];
-  qrcode_initText(&qrcode, qrcodeData, version, ECC_HIGH, "HELLOWORLD");
+  qrcode_initText(&qrcode, qrcodeData, version, ECC_LOW, "HTTPS://HUBELBAUER.NET");
 
   int scale = 2;
   int shift = (side - (qrcode.size * scale)) / 2;
@@ -91,10 +91,6 @@ void setup() {
       ledControls[index].shutdown(address, true);
     }
   }
-}
-
-// TODO: LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
-void loop() {
 }
 ```
 
