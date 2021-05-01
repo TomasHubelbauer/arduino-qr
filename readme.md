@@ -268,3 +268,14 @@ Version 11 numeric capacity is 331-772 and alphanumeric 200-468.
 If the chains could somehow be 10 displays long, that would give us a 10×10
 display, 100×100 dots, QR level up to 20 (97×97). Or QR version 7, double sized.
 Version 20 numeric capacity is 919-2061 and alphanumeric 557-1249.
+
+### See if Uri will be able to add support for white color dot matrix in Wokwi
+
+The screenshot as it is now will not scan with the iOS Camera app, but with the
+red color changed to white, it will. I'd like to achieve support for this in the
+emulator itself so I don't have to adjust the screenshot by hand each time.
+
+Of course this in no way correlates with whether the dot matrix display QR code
+will scan in real life or not, I have to build it and see, but I'm already
+thinking about ordering white displays (if they will be compatible with the
+driver board I have) to aid scanability of the built device as well.
