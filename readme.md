@@ -1,40 +1,46 @@
 # Arduino QR Code
 
-An Arduino QR code display using a 4×4 matrix of 8×8 LED matrix displays using
-the MAX7219 display driver. [AliExpress](https://www.aliexpress.com/item/32849877252.html)
+An Arduino QR code display using a matrix of 8×8 LED dot matrix displays driven
+by the MAX7219 display driver.
+
+[8×8 LED dot matrix displays AliExpress](https://www.aliexpress.com/item/32849877252.html)
 
 ![](wokwi.png)
 
 The displays are chainable up to 8 displays in one chain. Multiple chains need
-to be used to drive more displays. Arduino with 13 digital pins can support up
-to 4 chains (3 SPI pins per chain: DIN, CLK and CS). That gives us the maximum
-display size of 32×32 dots (4×4 displays to keep the compound display square).
-This allows displaying QR codes of versions 1, 2 and 3:
+to be used to drive more displays.
 
-[Wikipedia: QR Code Storage](https://en.wikipedia.org/wiki/QR_code#Storage):
+Arduino with 14 digital pins and 6 analog pins which can be used as digital. It
+can support up to 6 chains (3 SPI pins per chain: DIN, CLK and CS). That results
+in the maximum display size of 48×48 dots (6×6 displays to keep the QR square).
+This allows displaying QR codes of versions 1-7 or displaying a version 1 code
+at twice the size.
 
-| QR Version | QR Size | 8×8 LED Matrix Display Count | Utilization           |
-|------------|---------|------------------------------|-----------------------|
-| 1          | 21×21   | 9 (3×3 - 24×24)              | 77 % (441/576 dots)   |
-| 2          | 25×25   | 16 (4×4 - 32×32)             | 61 % (625/1024 dots)  |
-| 3          | 29×29   | 16 (4×4 - 32×32)             | 82 % (841/1024 dots)  |
+| Version | Pixels       | Displays | Dots         | Utilization      |
+|---------|--------------|----------|--------------|------------------|
+| QR 1    | 21×21 (441)  | 9 (3×3)  | 24×24 (576)  | 77 % (441/576)   |
+| QR 2    | 25×25 (625)  | 16 (4×4) | 32×32 (1024) | 61 % (625/1024)  |
+| QR 3    | 29×29 (841)  | 16 (4×4) | 32×32 (1024) | 82 % (841/1024)  |
+| QR 4    | 33×33 (1089) | 25 (5×5) | 40×40 (1600) | 68 % (1089/1600) |
+| QR 5    | 37×37 (1369) | 25 (5×5) | 40×40 (1600) | 85 % (1369/1600) |
+| QR 6    | 41×41 (1681) | 36 (6×6) | 48×48 (2304) | 72 % (1681/2304) |
+| QR 7    | 45×45 (2025) | 36 (6×6) | 48×48 (2304) | 87 % (2025/2304) |
 
-[QRCode.com Information Capacity](https://www.qrcode.com/en/about/version.html)
+[Source: QR Code Storage (Wikipedia)](https://en.wikipedia.org/wiki/QR_code#Storage):
 
-| QR Version | Error Correction | Numeric Capacity | Alphanumeric Capacity |
-|------------|------------------|------------------|-----------------------|
-| 1          | Low              | 41               | 25                    |
-| 1          | Medium           | 34               | 20                    |
-| 1          | Quartile         | 27               | 16                    |
-| 1          | High             | 17               | 10                    |
-| 2          | Low              | 77               | 47                    |
-| 2          | Medium           | 63               | 38                    |
-| 2          | Quartile         | 48               | 29                    |
-| 2          | High             | 34               | 20                    |
-| 3          | Low              | 127              | 77                    |
-| 3          | Medium           | 101              | 61                    |
-| 3          | Quartile         | 77               | 47                    |
-| 3          | High             | 58               | 35                    |
+| Version | NH  | NQ  | NM  | NL  | ANH | ANQ | ANM | ANL |
+|---------|-----|-----|-----|-----|-----|-----|-----|-----|
+| QR 1    | 17  | 27  | 34  | 41  | 10  | 16  | 20  | 25  |
+| QR 2    | 34  | 48  | 63  | 77  | 20  | 29  | 38  | 47  |
+| QR 3    | 58  | 77  | 101 | 127 | 35  | 47  | 61  | 77  |
+| QR 4    | 82  | 111 | 149 | 187 | 50  | 67  | 90  | 114 |
+| QR 5    | 106 | 144 | 202 | 255 | 64  | 87  | 122 | 154 |
+| QR 6    | 139 | 178 | 255 | 322 | 84  | 108 | 154 | 195 |
+| QR 7    | 154 | 207 | 293 | 370 | 93  | 125 | 178 | 224 |
+
+N = numeric, AN = alpha-numeric, H = high, Q = quartile, M = medium, L = low
+
+[Source: Information Capacity (QRCode.com)](https://www.qrcode.com/en/about/version.html)
 
 ## [Wokwi Simulation](https://wokwi.com/arduino/projects/297148152803230218)
 
@@ -44,14 +50,17 @@ This allows displaying QR codes of versions 1, 2 and 3:
 #include "qrcode.h" // https://github.com/ricmoo/QRCode
 
 int size = 6;
+int side = size * 8;
 QRCode qrcode;
+
+// DIN, CLK, CS
 LedControl ledControls[] = {
-  LedControl(/* DIN */ 0, /* CLK */ 1, /* CS */ 2, size),
-  LedControl(/* DIN */ 3, /* CLK */ 4, /* CS */ 5, size),
-  LedControl(/* DIN */ 6, /* CLK */ 7, /* CS */ 8, size),
-  LedControl(/* DIN */ 9, /* CLK */ 10, /* CS */ 11, size),
-  LedControl(/* DIN */ A0, /* CLK */ A1, /* CS */ A2, size),
-  LedControl(/* DIN */ A3, /* CLK */ A4, /* CS */ A5, size),
+  LedControl(0, 1, 2, size),
+  LedControl(3, 4, 5, size),
+  LedControl(6, 7, 8, size),
+  LedControl(9, 10, 11, size),
+  LedControl(A0, A1, A2, size),
+  LedControl(A3, A4, A5, size),
 };
 
 void setup() {
@@ -59,22 +68,25 @@ void setup() {
     ledControls[index].setIntensity(0, 15);
   }
 
-  int version = 2;
+  int version = 1;
   uint8_t qrcodeData[qrcode_getBufferSize(version)];
   qrcode_initText(&qrcode, qrcodeData, version, ECC_HIGH, "HELLO");
 
-  // TODO: Reset to version=3, scale=1, pad=uncomment to not double the QR size
   int scale = 2;
-  int pad = -1; // (32 - (qrcode.size / scale)) / 2;
-  for (int y = pad; y < size * 8; y++) {
-    for (int x = pad; x < size * 8; x++) {
+  int shift = (side - (qrcode.size * scale)) / 2;
+  for (int y = shift; y < side; y++) {
+    for (int x = shift; x < side; x++) {
       int address = size - 1 - (x / 8);
       int row = y % 8;
       int column = 7 - (x % 8);
-      bool state = qrcode_getModule(&qrcode, (x - pad) / scale, (y - pad) / scale);
+      bool state = qrcode_getModule(&qrcode, (x - shift) / scale, (y - shift) / scale);
+      if (x >= shift + (qrcode.size * scale) || y >= shift + (qrcode.size * scale)) {
+        state = false;
+      }
+
       int index = y / 8;
       ledControls[index].shutdown(address, false);
-      ledControls[index].setLed(address, row, column, !state);
+      ledControls[index].setLed(address, row, column, state);
       ledControls[index].shutdown(address, true);
     }
   }
@@ -235,32 +247,24 @@ source idea would be that much easier.
 Test this on actual hardware. Check other libraries too, to find whichever is
 able to control the most displays.
 
-### Test the method of using analog pins as digital and recalculate maximum
+### Test the method of using analog pins as digital on a real Arduino
 
-https://arduino.stackexchange.com/q/117/23747
+[According to Stack Overflow](https://arduino.stackexchange.com/q/117/23747) and
+the Wokwi simulation above, analog pins can be used as digital pins. If on real
+hardware this works, it bumps us from a 4×4 display to a 6×6 display.
 
-This talks about using analog pins as digital, test if LEDControl can be
-configured to use those and recalculate the new maximum size of a square
-compound display if we were to utilize both the digital and the analog pins.
-
-It looks like the total number of pins would be 19, which means 19/3 (6) chains
-of dot matrix displays. Potentially, then, the new maximum should be a six-sided
-compound display, so 48×48 dots? This would support version 4 QR codes or almost
-allow a double-thickness version 2 QR code for better scanning support.
-
-### Look into using a shift register shield to extend the amount of pins
-
-This would enable QR codes of higher versions and could also enable doubling up
-the QR "thickness" for more reliable scanning (if that would help…).
+### Look into using a shift register shield to extend the amount of usable pins
 
 https://nootropicdesign.com/ez-expander
 
-If I'm counting right, this would give a total of 44 pins to use, if we included
-the analog pins, too. 44 pins means 44/3 (14) chains. If the chains are stuck at
-the length of 8 dot matrix displays, this would at least give us an 8×8 compound
-display (64×64 dots). If they worked past 8, this would give us 14×14 compound
-display (112×112 dots). 64×64 would support QR version 10 or doubled up version
-version 3. 112×112 would support doubled up version 10 and just slightly miss
-the threshold for version 25 (117×117). A doubled up version 10 would be super
-sweet if it improved the scanning quality. It seems to support 174 alphanumeric
-characters with high error correction.
+14 digital pins - 3 used shield pins + 13 new shield pins + 6 analog pins = 30
+
+30 pins ~ 10 chains.
+
+If the chains are truly stuck at 8 displays at most, this would give us a 8×8
+display, 64×64 dots, QR level up to 11 (61×61). Or QR version 3 at double size.
+Version 11 numeric capacity is 331-772 and alphanumeric 200-468.
+
+If the chains could somehow be 10 displays long, that would give us a 10×10
+display, 100×100 dots, QR level up to 20 (97×97). Or QR version 7, double sized.
+Version 20 numeric capacity is 919-2061 and alphanumeric 557-1249.
