@@ -123,7 +123,7 @@ void loop() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "6" }
+      "attrs": { "chain": "6", "color": "white" }
     },
     {
       "type": "wokwi-max7219-matrix",
@@ -132,7 +132,7 @@ void loop() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "6" }
+      "attrs": { "chain": "6", "color": "white" }
     },
     {
       "type": "wokwi-max7219-matrix",
@@ -141,7 +141,7 @@ void loop() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "6" }
+      "attrs": { "chain": "6", "color": "white" }
     },
     {
       "type": "wokwi-max7219-matrix",
@@ -150,7 +150,7 @@ void loop() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "6" }
+      "attrs": { "chain": "6", "color": "white" }
     },
     {
       "type": "wokwi-max7219-matrix",
@@ -159,7 +159,7 @@ void loop() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "6" }
+      "attrs": { "chain": "6", "color": "white" }
     },
     {
       "type": "wokwi-max7219-matrix",
@@ -168,7 +168,7 @@ void loop() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "6" }
+      "attrs": { "chain": "6", "color": "white" }
     }
   ],
   "connections": [
@@ -274,14 +274,3 @@ display by using 8 chains for an 8×8 display and then two chains for the 9th ro
 and column. This would complicate the code calculations, but could be worth it.
 9×9 is 72×72 dots, QR level up to version 13 (69×69). Or QR version 4, doubled.
 Version 13 numeric capacity is 427-1022 and alphanumeric 259-619.
-
-### See if Uri will be able to add support for white color dot matrix in Wokwi
-
-The screenshot as it is now will not scan with the iOS Camera app, but with the
-red color changed to white, it will. I'd like to achieve support for this in the
-emulator itself so I don't have to adjust the screenshot by hand each time.
-
-Of course this in no way correlates with whether the dot matrix display QR code
-will scan in real life or not, I have to build it and see, but I'm already
-thinking about ordering white displays (if they will be compatible with the
-driver board I have) to aid scanability of the built device as well.
