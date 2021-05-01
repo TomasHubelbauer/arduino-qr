@@ -47,8 +47,8 @@ N = numeric, AN = alpha-numeric, H = high, Q = quartile, M = medium, L = low
 
 `qrcode.ino`
 ```ino
-#include <LedControl.h>
-#include "qrcode.h" // https://github.com/ricmoo/QRCode
+#include <LedControl.h> // https://github.com/wayoda/LedControl
+#include <qrcode.h> // https://github.com/ricmoo/QRCode
 
 int size = 6;
 int side = size * 8;
@@ -122,14 +122,6 @@ int main() {
   ]
 }
 ```
-
-`qrcode.c` and `qrcode.h` from [ricmoo/QRCode](https://github.com/ricmoo/QRCode)
-also need to be added to the project.
-
-[LEDControl](https://www.arduino.cc/reference/en/libraries/ledcontrol) will work
-out of the box.
-
-[LEDControl documentation](http://wayoda.github.io/LedControl/pages/software)
 
 ## To-Do
 
