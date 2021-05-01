@@ -26,7 +26,7 @@ at twice the size.
 | QR 6    | 41×41 (1681) | 36 (6×6) | 48×48 (2304) | 72 % (1681/2304) |
 | QR 7    | 45×45 (2025) | 36 (6×6) | 48×48 (2304) | 87 % (2025/2304) |
 
-[Source: QR Code Storage (Wikipedia)](https://en.wikipedia.org/wiki/QR_code#Storage):
+[QR Code Storage (Wikipedia)](https://en.wikipedia.org/wiki/QR_code#Storage)
 
 | Version | NH  | NQ  | NM  | NL  | ANH | ANQ | ANM | ANL |
 |---------|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -40,7 +40,7 @@ at twice the size.
 
 N = numeric, AN = alpha-numeric, H = high, Q = quartile, M = medium, L = low
 
-[Source: Information Capacity (QRCode.com)](https://www.qrcode.com/en/about/version.html)
+[Information Capacity (QRCode.com)](https://www.qrcode.com/en/about/version.html)
 
 ## [Wokwi Simulation](https://wokwi.com/arduino/projects/297148152803230218)
 
