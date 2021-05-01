@@ -43,48 +43,45 @@ This allows displaying QR codes of versions 1, 2 and 3:
 #include <LedControl.h>
 #include "qrcode.h" // https://github.com/ricmoo/QRCode
 
+int size = 6;
 QRCode qrcode;
 LedControl ledControls[] = {
-  LedControl(/* DIN */ 0, /* CLK */ 1, /* CS */ 2, /* Count */ 4),
-  LedControl(/* DIN */ 3, /* CLK */ 4, /* CS */ 5, /* Count */ 4),
-  LedControl(/* DIN */ 6, /* CLK */ 7, /* CS */ 8, /* Count */ 4),
-  LedControl(/* DIN */ 9, /* CLK */ 10, /* CS */ 11, /* Count */ 4),
+  LedControl(/* DIN */ 0, /* CLK */ 1, /* CS */ 2, size),
+  LedControl(/* DIN */ 3, /* CLK */ 4, /* CS */ 5, size),
+  LedControl(/* DIN */ 6, /* CLK */ 7, /* CS */ 8, size),
+  LedControl(/* DIN */ 9, /* CLK */ 10, /* CS */ 11, size),
+  LedControl(/* DIN */ A0, /* CLK */ A1, /* CS */ A2, size),
+  LedControl(/* DIN */ A3, /* CLK */ A4, /* CS */ A5, size),
 };
 
 void setup() {
-  ledControls[0].setIntensity(0, 15);
-  ledControls[1].setIntensity(0, 15);
-  ledControls[2].setIntensity(0, 15);
-  ledControls[3].setIntensity(0, 15);
+  for (int index = 0; index < size; index++) {
+    ledControls[index].setIntensity(0, 15);
+  }
 
-  // Allocate array large enough to hold a version 3 QR code (29*29)
-  uint8_t qrcodeData[qrcode_getBufferSize(3)];
-  qrcode_initText(&qrcode, qrcodeData, 3, 0, "HELLO WORLD");
+  int version = 2;
+  uint8_t qrcodeData[qrcode_getBufferSize(version)];
+  qrcode_initText(&qrcode, qrcodeData, version, ECC_HIGH, "HELLO");
 
-  drawQrCode();
-}
-
-void loop() {
-  // TODO: Replace this with ArduinoLowPower.h and its power-down mode:
-  // LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
-  delay(2147483647);
-}
-
-void drawQrCode() {
-  // TODO: Adjust the code for this to work and center the QR code
-  int pad = (32 - qrcode.size) / 2;
-  for (int y = 0; y < 32; y++) {
-    for (int x = 0; x < 32; x++) {
-      int address = 3 - (x / 8);
+  // TODO: Reset to version=3, scale=1, pad=uncomment to not double the QR size
+  int scale = 2;
+  int pad = -1; // (32 - (qrcode.size / scale)) / 2;
+  for (int y = pad; y < size * 8; y++) {
+    for (int x = pad; x < size * 8; x++) {
+      int address = size - 1 - (x / 8);
       int row = y % 8;
       int column = 7 - (x % 8);
-      bool state = qrcode_getModule(&qrcode, x, y);
+      bool state = qrcode_getModule(&qrcode, (x - pad) / scale, (y - pad) / scale);
       int index = y / 8;
       ledControls[index].shutdown(address, false);
-      ledControls[index].setLed(address, row, column, state);
+      ledControls[index].setLed(address, row, column, !state);
       ledControls[index].shutdown(address, true);
     }
   }
+}
+
+// TODO: LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
+void loop() {
 }
 ```
 
@@ -114,7 +111,7 @@ void drawQrCode() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "4" }
+      "attrs": { "chain": "6" }
     },
     {
       "type": "wokwi-max7219-matrix",
@@ -123,7 +120,7 @@ void drawQrCode() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "4" }
+      "attrs": { "chain": "6" }
     },
     {
       "type": "wokwi-max7219-matrix",
@@ -132,7 +129,7 @@ void drawQrCode() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "4" }
+      "attrs": { "chain": "6" }
     },
     {
       "type": "wokwi-max7219-matrix",
@@ -141,7 +138,25 @@ void drawQrCode() {
       "left": 300,
       "rotate": 0,
       "hide": false,
-      "attrs": { "chain": "4" }
+      "attrs": { "chain": "6" }
+    },
+    {
+      "type": "wokwi-max7219-matrix",
+      "id": "m5",
+      "top": 300,
+      "left": 300,
+      "rotate": 0,
+      "hide": false,
+      "attrs": { "chain": "6" }
+    },
+    {
+      "type": "wokwi-max7219-matrix",
+      "id": "m6",
+      "top": 375,
+      "left": 300,
+      "rotate": 0,
+      "hide": false,
+      "attrs": { "chain": "6" }
     }
   ],
   "connections": [
@@ -167,7 +182,19 @@ void drawQrCode() {
     [ "uno:5V", "m4:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
     [ "uno:9", "m4:DIN", "orange", [ "v-20", "*", "h-8" ] ],
     [ "uno:10", "m4:CLK", "blue", [ "v-16", "*", "h-12" ] ],
-    [ "uno:11", "m4:CS", "green", [ "v-24", "*", "h-4" ] ]
+    [ "uno:11", "m4:CS", "green", [ "v-24", "*", "h-4" ] ],
+  
+    [ "uno:GND.1", "m5:GND", "black", [ "v-12", "*", "h-16" ] ],
+    [ "uno:5V", "m5:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
+    [ "uno:A0", "m5:DIN", "orange", [ "v-20", "*", "h-8" ] ],
+    [ "uno:A1", "m5:CLK", "blue", [ "v-16", "*", "h-12" ] ],
+    [ "uno:A2", "m5:CS", "green", [ "v-24", "*", "h-4" ] ],
+
+    [ "uno:GND.1", "m6:GND", "black", [ "v-12", "*", "h-16" ] ],
+    [ "uno:5V", "m6:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
+    [ "uno:A3", "m6:DIN", "orange", [ "v-20", "*", "h-8" ] ],
+    [ "uno:A4", "m6:CLK", "blue", [ "v-16", "*", "h-12" ] ],
+    [ "uno:A5", "m6:CS", "green", [ "v-24", "*", "h-4" ] ]
   ]
 }
 ```
