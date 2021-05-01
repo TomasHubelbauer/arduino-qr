@@ -10,7 +10,7 @@ by the MAX7219 display driver.
 The displays are chainable up to 8 displays in one chain. Multiple chains need
 to be used to drive more displays.
 
-Arduino with 14 digital pins and 6 analog pins which can be used as digital. It
+Arduino has 14 digital pins and 6 analog pins which can be used as digital. It
 can support up to 6 chains (3 SPI pins per chain: DIN, CLK and CS). That results
 in the maximum display size of 48×48 dots (6×6 displays to keep the QR square).
 This allows displaying QR codes of versions 1-7 or displaying a version 1 code
