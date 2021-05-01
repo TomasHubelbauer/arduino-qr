@@ -80,9 +80,9 @@ int main() {
       int address = size - 1 - (x / 8);
       int row = y % 8;
       int column = 7 - (x % 8);
-      bool state = qrcode_getModule(&qrcode, (x - shift) / scale, (y - shift) / scale);
-      if (x >= shift + (qrcode.size * scale) || y >= shift + (qrcode.size * scale)) {
-        state = false;
+      bool state = false; // Turn out of bounds dots off to make sure they don't stay on
+      if (x >= shift && x < shift + (qrcode.size * scale) && y >= shift && y < shift + (qrcode.size * scale)) {
+        state = qrcode_getModule(&qrcode, (x - shift) / scale, (y - shift) / scale);
       }
 
       int index = y / 8;
