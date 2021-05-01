@@ -70,7 +70,7 @@ void setup() {
 
   int version = 1;
   uint8_t qrcodeData[qrcode_getBufferSize(version)];
-  qrcode_initText(&qrcode, qrcodeData, version, ECC_HIGH, "HELLO");
+  qrcode_initText(&qrcode, qrcodeData, version, ECC_HIGH, "HELLOWORLD");
 
   int scale = 2;
   int shift = (side - (qrcode.size * scale)) / 2;
