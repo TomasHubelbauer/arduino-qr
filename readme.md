@@ -5,7 +5,7 @@ by the MAX7219 display driver.
 
 [8×8 LED dot matrix displays AliExpress](https://www.aliexpress.com/item/32849877252.html)
 
-![](wokwi.png)
+<img src="qr_v1.png" width="50%" /><img src="qr_v3.png" width="50%" />
 
 The displays are chainable up to 8 displays in one chain. Multiple chains need
 to be used to drive more displays.
