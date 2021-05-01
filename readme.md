@@ -104,106 +104,21 @@ int main() {
     "display": "never"
   },
   "parts": [
-    {
-      "type": "wokwi-arduino-uno",
-      "id": "uno",
-      "top": 30,
-      "left": 0,
-      "rotate": 90,
-      "hide": false,
-      "attrs": {}
-    },
-    {
-      "type": "wokwi-max7219-matrix",
-      "id": "m1",
-      "top": 0,
-      "left": 300,
-      "rotate": 0,
-      "hide": false,
-      "attrs": { "chain": "6", "color": "white" }
-    },
-    {
-      "type": "wokwi-max7219-matrix",
-      "id": "m2",
-      "top": 75,
-      "left": 300,
-      "rotate": 0,
-      "hide": false,
-      "attrs": { "chain": "6", "color": "white" }
-    },
-    {
-      "type": "wokwi-max7219-matrix",
-      "id": "m3",
-      "top": 150,
-      "left": 300,
-      "rotate": 0,
-      "hide": false,
-      "attrs": { "chain": "6", "color": "white" }
-    },
-    {
-      "type": "wokwi-max7219-matrix",
-      "id": "m4",
-      "top": 225,
-      "left": 300,
-      "rotate": 0,
-      "hide": false,
-      "attrs": { "chain": "6", "color": "white" }
-    },
-    {
-      "type": "wokwi-max7219-matrix",
-      "id": "m5",
-      "top": 300,
-      "left": 300,
-      "rotate": 0,
-      "hide": false,
-      "attrs": { "chain": "6", "color": "white" }
-    },
-    {
-      "type": "wokwi-max7219-matrix",
-      "id": "m6",
-      "top": 375,
-      "left": 300,
-      "rotate": 0,
-      "hide": false,
-      "attrs": { "chain": "6", "color": "white" }
-    }
+    { "type": "wokwi-arduino-uno", "id": "u", "top": 30, "left": 0, "rotate": 90 },
+    { "type": "wokwi-max7219-matrix", "id": "1", "top": 0, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "2", "top": 75, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "3", "top": 150, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "4", "top": 225, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "5", "top": 300, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "6", "top": 375, "left": 260, "attrs": { "chain": "6", "color": "white" } }
   ],
   "connections": [
-    [ "uno:GND.1", "m1:GND", "black", [ "v-12", "*", "h-16" ] ],
-    [ "uno:5V", "m1:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
-    [ "uno:0", "m1:DIN", "orange", [ "v-20", "*", "h-8" ] ],
-    [ "uno:1", "m1:CLK", "blue", [ "v-16", "*", "h-12" ] ],
-    [ "uno:2", "m1:CS", "green", [ "v-24", "*", "h-4" ] ],
-
-    [ "uno:GND.1", "m2:GND", "black", [ "v-12", "*", "h-16" ] ],
-    [ "uno:5V", "m2:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
-    [ "uno:3", "m2:DIN", "orange", [ "v-20", "*", "h-8" ] ],
-    [ "uno:4", "m2:CLK", "blue", [ "v-16", "*", "h-12" ] ],
-    [ "uno:5", "m2:CS", "green", [ "v-24", "*", "h-4" ] ],
-
-    [ "uno:GND.1", "m3:GND", "black", [ "v-12", "*", "h-16" ] ],
-    [ "uno:5V", "m3:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
-    [ "uno:6", "m3:DIN", "orange", [ "v-20", "*", "h-8" ] ],
-    [ "uno:7", "m3:CLK", "blue", [ "v-16", "*", "h-12" ] ],
-    [ "uno:8", "m3:CS", "green", [ "v-24", "*", "h-4" ] ],
-
-    [ "uno:GND.1", "m4:GND", "black", [ "v-12", "*", "h-16" ] ],
-    [ "uno:5V", "m4:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
-    [ "uno:9", "m4:DIN", "orange", [ "v-20", "*", "h-8" ] ],
-    [ "uno:10", "m4:CLK", "blue", [ "v-16", "*", "h-12" ] ],
-    [ "uno:11", "m4:CS", "green", [ "v-24", "*", "h-4" ] ],
-  
-    [ "uno:GND.1", "m5:GND", "black", [ "v-12", "*", "h-16" ] ],
-    [ "uno:5V", "m5:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
-    [ "uno:A0", "m5:DIN", "orange", [ "v-20", "*", "h-8" ] ],
-    [ "uno:A1", "m5:CLK", "blue", [ "v-16", "*", "h-12" ] ],
-    [ "uno:A2", "m5:CS", "green", [ "v-24", "*", "h-4" ] ],
-
-    [ "uno:GND.1", "m6:GND", "black", [ "v-12", "*", "h-16" ] ],
-    [ "uno:5V", "m6:V+", "red", [ "v35", "h-10", "*", "h-40" ] ],
-    [ "uno:A3", "m6:DIN", "orange", [ "v-20", "*", "h-8" ] ],
-    [ "uno:A4", "m6:CLK", "blue", [ "v-16", "*", "h-12" ] ],
-    [ "uno:A5", "m6:CS", "green", [ "v-24", "*", "h-4" ] ]
+    [ "u:GND.1", "m1:GND", "black" ], [ "u:5V", "1:V+", "red" ], [ "u:0", "1:DIN", "orange" ], [ "u:1", "1:CLK", "blue" ], [ "u:2", "1:CS", "green" ],
+    [ "u:GND.1", "m2:GND", "black" ], [ "u:5V", "2:V+", "red" ], [ "u:3", "2:DIN", "orange" ], [ "u:4", "2:CLK", "blue" ], [ "u:5", "2:CS", "green" ],
+    [ "u:GND.1", "m3:GND", "black" ], [ "u:5V", "3:V+", "red" ], [ "u:6", "3:DIN", "orange" ], [ "u:7", "3:CLK", "blue" ], [ "u:8", "3:CS", "green" ],
+    [ "u:GND.1", "m4:GND", "black" ], [ "u:5V", "4:V+", "red" ], [ "u:9", "4:DIN", "orange" ], [ "u:10", "4:CLK", "blue" ], [ "u:11", "4:CS", "green" ],
+    [ "u:GND.1", "m5:GND", "black" ], [ "u:5V", "5:V+", "red" ], [ "u:A0", "5:DIN", "orange" ], [ "u:A1", "5:CLK", "blue" ], [ "u:A2", "5:CS", "green" ],
+    [ "u:GND.1", "m6:GND", "black" ], [ "u:5V", "6:V+", "red" ], [ "u:A3", "6:DIN", "orange" ], [ "u:A4", "6:CLK", "blue" ], [ "u:A5", "6:CS", "green" ]
   ]
 }
 ```
