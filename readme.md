@@ -157,9 +157,11 @@ able to control the most displays.
 the Wokwi simulation above, analog pins can be used as digital pins. If on real
 hardware this works, it bumps us from a 4×4 display to a 6×6 display.
 
-### Look into using a shift register shield to extend the amount of usable pins
+### Await EZ Expander delivery and try out layouts with more chains than 6
 
-https://nootropicdesign.com/ez-expander
+[EZ Expander (NootropicDesign.com)](https://nootropicdesign.com/ez-expander)
+
+I've ordered 3 and they should arrive in a week or two.
 
 14 digital pins - 3 used shield pins + 13 new shield pins + 6 analog pins = 30
 
