@@ -125,7 +125,27 @@ int main() {
 
 ## To-Do
 
-### Wire up the Wokwi simulation using a real Arduino and MAX7219 display grid
+### Document my build of the 3×3 display grid
+
+I build a 3×3 display grid and wired it up to an Arduino Uno. The wiring was a
+bit different from the Wokwi simulation.
+
+- [ ] Include the real hardware wiring diagram
+- [ ] Add photos+videos of the QR code in action including scanning screencast
+- [ ] Document however much of the HC-06 Bluetooth build I'll be able to figure
+
+I am currently struggling with using Bluetooth to send commands to the HC-06 BT
+module connected to the Arduino Uno. The idea is to send textual messages which
+would be taken as the QR code payload and the QR code would update whenever new
+message would come. The struggles is that I can't find a way to send messages to
+the module. The iOS apps I found do not see the module. macOS does see it, but
+to my knowledge does not have a way to send messages to Bluetooth serial the way
+I need to. I tried Web Bluetooth by using someone else's work here:
+https://loginov-rocks.github.io/Web-Bluetooth-Terminal
+
+That has not worked either. I'm going to try using an Android phone I guess.
+
+I am having trouble using this.
 
 ### 3D-print an enclosure to hold the 4×4 matrix of the displays together
 
