@@ -132,20 +132,15 @@ bit different from the Wokwi simulation.
 
 - [ ] Include the real hardware wiring diagram
 - [ ] Add photos+videos of the QR code in action including scanning screencast
-- [ ] Document however much of the HC-06 Bluetooth build I'll be able to figure
+- [ ] Document the HC-06 based Bluetooth control of the QR code text (not BLE)
 
-I am currently struggling with using Bluetooth to send commands to the HC-06 BT
-module connected to the Arduino Uno. The idea is to send textual messages which
-would be taken as the QR code payload and the QR code would update whenever new
-message would come. The struggles is that I can't find a way to send messages to
-the module. The iOS apps I found do not see the module. macOS does see it, but
-to my knowledge does not have a way to send messages to Bluetooth serial the way
-I need to. I tried Web Bluetooth by using someone else's work here:
+The HC-06 module is not BLE which seems to mean it is not supported on iOS.
+I'll try with an HC-10 to see if that makes the iOS BT control apps work.
+
+Also, someone built a Web Bluetooth terminal, but it doesn't work for me:
 https://loginov-rocks.github.io/Web-Bluetooth-Terminal
 
-That has not worked either. I'm going to try using an Android phone I guess.
-
-I am having trouble using this.
+### Await HC-10 BLE module arrival and try iOS BT control apps with it
 
 ### 3D-print an enclosure to hold the 4×4 matrix of the displays together
 
