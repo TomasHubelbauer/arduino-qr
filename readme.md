@@ -133,12 +133,23 @@ bit different from the Wokwi simulation.
 - [ ] Include the real hardware wiring diagram
 - [ ] Add photos+videos of the QR code in action including scanning screencast
 - [ ] Document the HC-06 based Bluetooth control of the QR code text (not BLE)
+- [ ] Document https://www.arduino.cc/en/Reference/SoftwareSerial serial bridge
+- [ ] Document [pins](https://forum.arduino.cc/t/hc-06-and-serial-available-always-0/237404/2)
 
 The HC-06 module is not BLE which seems to mean it is not supported on iOS.
 I'll try with an HC-10 to see if that makes the iOS BT control apps work.
 
-Also, someone built a Web Bluetooth terminal, but it doesn't work for me:
-https://loginov-rocks.github.io/Web-Bluetooth-Terminal
+For the HC-06 I used this Android app which worked well:
+https://play.google.com/store/apps/details?id=com.giumig.apps.bluetoothserialmonitor
+
+Also, someone built a Web Bluetooth terminal, but it doesn't work for me in
+either Chrome on macOS or Bleufy on iOS. However, macOS does see the HC-06 in
+the Bluetooth system settings and can connect to it (using code 1234).
+
+[WebBT](https://loginov-rocks.github.io/Web-Bluetooth-Terminal)
+[Source (GitHub)](https://github.com/loginov-rocks/Web-Bluetooth-Terminal)
+
+[Bluefy](https://apps.apple.com/us/app/bluefy-web-ble-browser/id1492822055)
 
 ### Await HC-10 BLE module arrival and try iOS BT control apps with it
 
