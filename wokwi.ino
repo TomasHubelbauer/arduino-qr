@@ -16,30 +16,26 @@ LedControl ledControls[] = {
 };
 
 int main() {
-  for (int index = 0; index < size; index++) {
-    ledControls[index].setIntensity(0, 15);
-  }
-
   int version = 1;
   uint8_t qrcodeData[qrcode_getBufferSize(version)];
-  qrcode_initText(&qrcode, qrcodeData, version, ECC_LOW, "HTTPS://HUBELBAUER.NET");
+  qrcode_initText(&qrcode, qrcodeData, version, ECC_LOW, "HUBELBAUER.NET");
 
   int scale = 2;
   int shift = (side - (qrcode.size * scale)) / 2;
   for (int y = shift; y < side; y++) {
     for (int x = shift; x < side; x++) {
+      int index = y / 8;
       int address = size - 1 - (x / 8);
       int row = y % 8;
       int column = 7 - (x % 8);
-      bool state = false; // Turn out of bounds dots off to make sure they don't stay on
+
+      // Turn out of bounds dots off to make sure they don't stay on
+      bool state = false;
       if (x >= shift && x < shift + (qrcode.size * scale) && y >= shift && y < shift + (qrcode.size * scale)) {
         state = qrcode_getModule(&qrcode, (x - shift) / scale, (y - shift) / scale);
       }
 
-      int index = y / 8;
-      ledControls[index].shutdown(address, false);
       ledControls[index].setLed(address, row, column, state);
-      ledControls[index].shutdown(address, true);
     }
   }
 }
