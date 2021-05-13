@@ -6,6 +6,9 @@
 // - Add commands to allow setting QR code level and display scale (bounded by `size`)
 // - Add an option to auto-detect QR code level and display scale (bounded by `size`)
 // - Add an option to not auto-capitalize text but switch to binary mode instead
+// - Add an option to display the QR code inverted and see if it improves scanning
+// - Add a mode where at startup HOTP shows QR code with secret to scan and then the
+//   Bluetooth communication XORs (or something) by the HOTP code to prevent hacking
 
 // DIN, CLK, CS
 LedControl ledControls[] = {
