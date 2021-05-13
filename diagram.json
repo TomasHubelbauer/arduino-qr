@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "author": "Tomas Hubelbauer",
+  "editor": "wokwi",
+  "serialMonitor": {
+    "display": "never"
+  },
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "u", "top": 30, "left": 0, "rotate": 90 },
+    { "type": "wokwi-max7219-matrix", "id": "1", "top": 0, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "2", "top": 75, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "3", "top": 150, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "4", "top": 225, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "5", "top": 300, "left": 260, "attrs": { "chain": "6", "color": "white" } },
+    { "type": "wokwi-max7219-matrix", "id": "6", "top": 375, "left": 260, "attrs": { "chain": "6", "color": "white" } }
+  ],
+  "connections": [
+    [ "u:GND.1", "m1:GND", "black" ], [ "u:5V", "1:V+", "red" ], [ "u:0", "1:DIN", "orange" ], [ "u:1", "1:CLK", "blue" ], [ "u:2", "1:CS", "green" ],
+    [ "u:GND.1", "m2:GND", "black" ], [ "u:5V", "2:V+", "red" ], [ "u:3", "2:DIN", "orange" ], [ "u:4", "2:CLK", "blue" ], [ "u:5", "2:CS", "green" ],
+    [ "u:GND.1", "m3:GND", "black" ], [ "u:5V", "3:V+", "red" ], [ "u:6", "3:DIN", "orange" ], [ "u:7", "3:CLK", "blue" ], [ "u:8", "3:CS", "green" ],
+    [ "u:GND.1", "m4:GND", "black" ], [ "u:5V", "4:V+", "red" ], [ "u:9", "4:DIN", "orange" ], [ "u:10", "4:CLK", "blue" ], [ "u:11", "4:CS", "green" ],
+    [ "u:GND.1", "m5:GND", "black" ], [ "u:5V", "5:V+", "red" ], [ "u:A0", "5:DIN", "orange" ], [ "u:A1", "5:CLK", "blue" ], [ "u:A2", "5:CS", "green" ],
+    [ "u:GND.1", "m6:GND", "black" ], [ "u:5V", "6:V+", "red" ], [ "u:A3", "6:DIN", "orange" ], [ "u:A4", "6:CLK", "blue" ], [ "u:A5", "6:CS", "green" ]
+  ]
+}
