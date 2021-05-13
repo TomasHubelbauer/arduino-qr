@@ -167,3 +167,14 @@ run a USB cable out from the enclosure to connect into a powerbank.
 The load of this device is basically constant, so it should be doable to find an
 approximate duration I can expect this to last… and then verify it in the real
 world.
+
+### Trim the received message and further validate it if needed
+
+At the very least, leading and trailing space could be removed. Perhaps length
+and fit into the QR code storage for the given level could be checked, too. The
+indication of an incorrect value could be the display grid going blank or
+blinking.
+
+### Print the processed message back into the Bluetooth serial console
+
+To confirm the payload was set and how it was adjusted (trim, case).
