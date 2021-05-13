@@ -135,3 +135,24 @@ display by using 8 chains for an 8×8 display and then two chains for the 9th ro
 and column. This would complicate the code calculations, but could be worth it.
 9×9 is 72×72 dots, QR level up to version 13 (69×69). Or QR version 4, doubled.
 Version 13 numeric capacity is 427-1022 and alphanumeric 259-619.
+
+### Address code `TODO` comments
+
+There are some improvement / new feature ideas in there.
+
+### Build a PCB to mount the LED dot matrix display grid and the Arduino on
+
+Instead of attempting to squeeze the rat's nest of wires into the 3d printed box
+or to use solder bridge connections between the displays to avoid the excessive
+amount of wires, let's order a PCB where the driver boards could be mounted such
+that the display grid works out perfectly aligned and the Arduino could be held
+on the backside of the PCB, or even on the front side too in sort of a base.
+
+Consider whether I want to have an on-board battery and a switch or if I'll just
+run a USB cable out from the enclosure to connect into a powerbank.
+
+### Calculate approximate expected runtime on a battery
+
+The load of this device is basically constant, so it should be doable to find an
+approximate duration I can expect this to last… and then verify it in the real
+world.
