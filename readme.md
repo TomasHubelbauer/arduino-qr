@@ -65,40 +65,36 @@ bit different from the Wokwi simulation.
 
 - [ ] Include the real hardware wiring diagram
 - [ ] Add photos+videos of the QR code in action including scanning screencast
-- [ ] Document the HC-06 based Bluetooth control of the QR code text (not BLE)
+- [ ] Document the HC-06 and HM-10 (MLT-BT05) difference (not BLE versus BLE)
+  - iOS seems to only support BLE (maybe BT 4.0) based Bluetooth serial modules
+  - Android supports only non-BLE with my Samsung A41 test phone and the app
+    [Arduino bluetooth controller](https://play.google.com/store/apps/details?id=com.giumig.apps.bluetoothserialmonitor)
 - [ ] Document https://www.arduino.cc/en/Reference/SoftwareSerial serial bridge
+  - Echo Bluetooth serial to serial data to debug in Arduino IDE Serial Monitor
+  - Echo serial to Bluetooth serial data to debug in BLExAR iOS app Console
 - [ ] Document [pins](https://forum.arduino.cc/t/hc-06-and-serial-available-always-0/237404/2)
 
-The HC-06 module is not BLE which seems to mean it is not supported on iOS.
-I'll try with an HC-10 to see if that makes the iOS BT control apps work.
+#### [Web-Bluetooth-Terminal](https://loginov-rocks.github.io/Web-Bluetooth-Terminal)
 
-For the HC-06 I used this Android app which worked well:
-https://play.google.com/store/apps/details?id=com.giumig.apps.bluetoothserialmonitor
+[Danila Loginov](https://github.com/loginov-rocks) built a WebBluetooth terminal
+capable of talking to the HM-10/MLT-BT05 BLE module. It works for me in Chrome
+on macOS and using [Bluefy] on iOS.
 
-Also, someone built a Web Bluetooth terminal, but it doesn't work for me in
-either Chrome on macOS or Bleufy on iOS. However, macOS does see the HC-06 in
-the Bluetooth system settings and can connect to it (using code 1234).
+[Bluefy]: https://apps.apple.com/us/app/bluefy-web-ble-browser/id1492822055
 
-[WebBT](https://loginov-rocks.github.io/Web-Bluetooth-Terminal)
+It doesn't work with the HC-06 Bluetooth 2.0/3.0 module. It seems WebBluetooth
+only supports Bluetooth 4.0/BLE since macOS itself did see both modules.
+
 [Source (GitHub)](https://github.com/loginov-rocks/Web-Bluetooth-Terminal)
-
-[Bluefy](https://apps.apple.com/us/app/bluefy-web-ble-browser/id1492822055)
-
-### Await HC-10 BLE module arrival and try iOS BT control apps with it
 
 ### 3D-print an enclosure to hold the 4×4 matrix of the displays together
 
 ### Experiment with normal and inverted QR display to see what reads better
 
-### Order and try white dot-matrix displays to see if they scan better than red
+### Await and try white dot-matrix displays to see if they scan better than red
 
-### Add a push button / SD reader / HTTP server or something to update the code
-
-It would be useful to allow updating the code once flashed. The most flexible
-way would be to have a built-in HTTP server. The initial code shown would be a
-URL to the server and accessing that server, once could set new values of the
-QR code. A push button would be used to reset to the server URL code. Or use an
-SD card reader which reads a value of a text file.
+I ordered a bunch of white dot matrix displays to see if they scan faster/more
+reliably.
 
 ### See if I can make this work on the Raspberry Pi Pico using Wokwi Pico sim
 
