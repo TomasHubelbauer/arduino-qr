@@ -43,85 +43,18 @@ N = numeric, AN = alpha-numeric, H = high, Q = quartile, M = medium, L = low
 
 [Information Capacity (QRCode.com)](https://www.qrcode.com/en/about/version.html)
 
+## Code
+
+See [`qr.ino`](qr.ino) for the WIP live Arduino code. Compared to the simulation
+below, it adds Bluetooth communication support and uses correct wiring to how
+the LED dot matrix displays I got behave, they seem to differ a bit from the
+simulated ones.
+
 ## [Wokwi Simulation](https://wokwi.com/arduino/projects/297148152803230218)
 
-`qrcode.ino`
-```ino
-#include <LedControl.h> // https://github.com/wayoda/LedControl
-#include <qrcode.h> // https://github.com/ricmoo/QRCode
-
-int size = 6;
-int side = size * 8;
-QRCode qrcode;
-
-// DIN, CLK, CS
-LedControl ledControls[] = {
-  LedControl(0, 1, 2, size),
-  LedControl(3, 4, 5, size),
-  LedControl(6, 7, 8, size),
-  LedControl(9, 10, 11, size),
-  LedControl(A0, A1, A2, size),
-  LedControl(A3, A4, A5, size),
-};
-
-int main() {
-  for (int index = 0; index < size; index++) {
-    ledControls[index].setIntensity(0, 15);
-  }
-
-  int version = 1;
-  uint8_t qrcodeData[qrcode_getBufferSize(version)];
-  qrcode_initText(&qrcode, qrcodeData, version, ECC_LOW, "HTTPS://HUBELBAUER.NET");
-
-  int scale = 2;
-  int shift = (side - (qrcode.size * scale)) / 2;
-  for (int y = shift; y < side; y++) {
-    for (int x = shift; x < side; x++) {
-      int address = size - 1 - (x / 8);
-      int row = y % 8;
-      int column = 7 - (x % 8);
-      bool state = false; // Turn out of bounds dots off to make sure they don't stay on
-      if (x >= shift && x < shift + (qrcode.size * scale) && y >= shift && y < shift + (qrcode.size * scale)) {
-        state = qrcode_getModule(&qrcode, (x - shift) / scale, (y - shift) / scale);
-      }
-
-      int index = y / 8;
-      ledControls[index].shutdown(address, false);
-      ledControls[index].setLed(address, row, column, state);
-      ledControls[index].shutdown(address, true);
-    }
-  }
-}
-```
-
-`diagram.json`
-```json
-{
-  "version": 1,
-  "author": "Tomas Hubelbauer",
-  "editor": "wokwi",
-  "serialMonitor": {
-    "display": "never"
-  },
-  "parts": [
-    { "type": "wokwi-arduino-uno", "id": "u", "top": 30, "left": 0, "rotate": 90 },
-    { "type": "wokwi-max7219-matrix", "id": "1", "top": 0, "left": 260, "attrs": { "chain": "6", "color": "white" } },
-    { "type": "wokwi-max7219-matrix", "id": "2", "top": 75, "left": 260, "attrs": { "chain": "6", "color": "white" } },
-    { "type": "wokwi-max7219-matrix", "id": "3", "top": 150, "left": 260, "attrs": { "chain": "6", "color": "white" } },
-    { "type": "wokwi-max7219-matrix", "id": "4", "top": 225, "left": 260, "attrs": { "chain": "6", "color": "white" } },
-    { "type": "wokwi-max7219-matrix", "id": "5", "top": 300, "left": 260, "attrs": { "chain": "6", "color": "white" } },
-    { "type": "wokwi-max7219-matrix", "id": "6", "top": 375, "left": 260, "attrs": { "chain": "6", "color": "white" } }
-  ],
-  "connections": [
-    [ "u:GND.1", "m1:GND", "black" ], [ "u:5V", "1:V+", "red" ], [ "u:0", "1:DIN", "orange" ], [ "u:1", "1:CLK", "blue" ], [ "u:2", "1:CS", "green" ],
-    [ "u:GND.1", "m2:GND", "black" ], [ "u:5V", "2:V+", "red" ], [ "u:3", "2:DIN", "orange" ], [ "u:4", "2:CLK", "blue" ], [ "u:5", "2:CS", "green" ],
-    [ "u:GND.1", "m3:GND", "black" ], [ "u:5V", "3:V+", "red" ], [ "u:6", "3:DIN", "orange" ], [ "u:7", "3:CLK", "blue" ], [ "u:8", "3:CS", "green" ],
-    [ "u:GND.1", "m4:GND", "black" ], [ "u:5V", "4:V+", "red" ], [ "u:9", "4:DIN", "orange" ], [ "u:10", "4:CLK", "blue" ], [ "u:11", "4:CS", "green" ],
-    [ "u:GND.1", "m5:GND", "black" ], [ "u:5V", "5:V+", "red" ], [ "u:A0", "5:DIN", "orange" ], [ "u:A1", "5:CLK", "blue" ], [ "u:A2", "5:CS", "green" ],
-    [ "u:GND.1", "m6:GND", "black" ], [ "u:5V", "6:V+", "red" ], [ "u:A3", "6:DIN", "orange" ], [ "u:A4", "6:CLK", "blue" ], [ "u:A5", "6:CS", "green" ]
-  ]
-}
-```
+See [`wokwi.ino`](wokwi.ino) and [`diagram.json`](diagram.json) for the Wokwi
+simulation files. Compared to the live Arduino code above, there is no Bluetooth
+communication support.
 
 ## To-Do
 
