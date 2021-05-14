@@ -195,7 +195,8 @@ This is an undocumented part in Wokwi. It should be fun to hook it up to a
 single display and see the driving signals for things like lighting up the edge
 LEDs and clearing/filling the display. Maybe it will also reveal the difference
 between pushing in a single row/column as a single number/call in LEDControl and
-setting the individual LEDs. The output format of the logic analyzer is VCD.
+setting the individual LEDs. The output format of the logic analyzer is VCD,
+openable by PulseView (Open > Import Value Change Dump data).
 
 ### Test whether using `setRow`/`setColumn` would be faster than `setLed`
 
