@@ -204,3 +204,15 @@ The complexity of the code would increase if I were to use either of these
 methods, but if the performance improves, it might be justifiable. Although the
 current "rolling" animation is pretty pleasant to look at, so maybe fast refresh
 is not needed?
+
+### Add an OPT boot QR code wnich when scanned allows generating edit passwords
+
+The thing starts up, presents a QR code, scanned by the Authenticator app on the
+phone, this OTP QR code can generate 6 digit codes which are then used to prefix
+the message in the Bluetooth control app such that messages which do not have
+this prefix are rejected and the QT code shown is not changed. Use HOTP not TOTP
+to avoid replay attack within the TOTP window (or keep a tracking variable of
+whether the current window TOTP code was already used once).
+
+https://stackoverflow.com/q/34520928/2715716
+
